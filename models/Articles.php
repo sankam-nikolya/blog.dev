@@ -4,7 +4,11 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use app\models\query\ArticlesQuery;
+use yii\behaviors\SluggableBehavior;
+use yii\behaviors\TimestampBehavior;
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 
 /**
  * This is the model class for table "{{%articles}}".
@@ -35,18 +39,40 @@ class Articles extends ActiveRecord
         return '{{%articles}}';
     }
 
+    public function behaviors()
+    {
+        return [
+            'slug' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'title',
+            ],
+            'timestamp' => [
+                'class' => TimestampBehavior::className()
+            ],
+            'saveRelations' => [
+                'class'     => SaveRelationsBehavior::className(),
+                'relations' => ['categories']
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['title', 'intro', 'description'], 'required'],
+            [['title', 'intro', 'description', 'categories'], 'required'],
             [['intro', 'description'], 'string'],
+            [['published_at'], 'default', 'value' => function () {
+                return date('Y-m-d');
+            }],
+            [['published_at'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
             [['created_by', 'created_at', 'updated_at', 'published_at', 'status'], 'integer'],
             [['title', 'slug'], 'string', 'max' => 255],
             [['slug'], 'unique'],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['created_by' => 'id']],
+            ['categories', 'safe']
         ];
     }
 
@@ -66,6 +92,7 @@ class Articles extends ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'published_at' => Yii::t('app', 'Published At'),
             'status' => Yii::t('app', 'Status'),
+            'categories' => Yii::t('app', 'Categories'),
         ];
     }
 
@@ -92,6 +119,11 @@ class Articles extends ActiveRecord
     public function getComments()
     {
         return $this->hasMany(Comments::className(), ['article_id' => 'id']);
+    }
+
+    public static function getCategoriesList()
+    {
+        return ArrayHelper::map(Categories::find()->all(), 'id', 'title');
     }
 
     /**

@@ -18,8 +18,8 @@ class CategoriesSearch extends Categories
     public function rules()
     {
         return [
-            [['id', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['title', 'slug', 'description'], 'safe'],
+            [['id', 'status'], 'integer'],
+            [['title', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -57,17 +57,37 @@ class CategoriesSearch extends Categories
             return $dataProvider;
         }
 
+        if (!empty($this->created_at)) {
+            $query->andFilterWhere(
+                [
+                    'between',
+                    'updated_at',
+                    strtotime($this->created_at),
+                    strtotime($this->created_at . ' 23:59:59')
+                ]
+            );
+        }
+
+        if (!empty($this->updated_at)) {
+            $query->andFilterWhere(
+                [
+                    'between',
+                    'updated_at',
+                    strtotime($this->updated_at),
+                    strtotime($this->updated_at . ' 23:59:59')
+                ]
+            );
+        }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'description', $this->description]);
+
+
+        $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }

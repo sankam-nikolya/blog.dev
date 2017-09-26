@@ -34,7 +34,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:html',
             'created_at:datetime',
             'updated_at:datetime',
-            'status',
+            [
+                'attribute' => 'status',
+                'value' => function($model) {
+                    $statuses = [
+                        0 => Yii::t('app', 'Not Published'),
+                        1 => Yii::t('app', 'Published')
+                    ];
+
+                    return $statuses[$model->status];
+                }
+            ]
         ],
     ]) ?>
 

@@ -32,4 +32,8 @@ return [
 	'User Name' => 'Логин',
 	'Name' => 'Имя',
 	'Email' => 'E-mail',
+	'Not Published' => 'Скрыто',
+	'Published' => 'Показано',
+	'Categories' => 'Категоии',
+	'Select category' => 'Укажите категоии'
 ];

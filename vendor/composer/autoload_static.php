@@ -22,6 +22,20 @@ class ComposerStaticInit1fe478db4ab688c33f7813e1773f0eb0
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
         ),
+        'v' => 
+        array (
+            'vova07\\imperavi\\' => 16,
+        ),
+        'l' => 
+        array (
+            'lhs\\Yii2SaveRelationsBehavior\\' => 30,
+        ),
+        'k' => 
+        array (
+            'kartik\\select2\\' => 15,
+            'kartik\\date\\' => 12,
+            'kartik\\base\\' => 12,
+        ),
         'c' => 
         array (
             'cebe\\markdown\\' => 14,
@@ -60,6 +74,26 @@ class ComposerStaticInit1fe478db4ab688c33f7813e1773f0eb0
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'vova07\\imperavi\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vova07/yii2-imperavi-widget/src',
+        ),
+        'lhs\\Yii2SaveRelationsBehavior\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/la-haute-societe/yii2-save-relations-behavior/src',
+        ),
+        'kartik\\select2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-select2',
+        ),
+        'kartik\\date\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datepicker',
+        ),
+        'kartik\\base\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
         ),
         'cebe\\markdown\\' => 
         array (
