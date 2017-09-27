@@ -6,9 +6,11 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use app\models\query\ArticlesQuery;
+use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use components\behaviors\UploadImageBehavior;
 
 /**
  * This is the model class for table "{{%articles}}".
@@ -49,9 +51,25 @@ class Articles extends ActiveRecord
             'timestamp' => [
                 'class' => TimestampBehavior::className()
             ],
+            'author' => [
+                'class' => BlameableBehavior::className(),
+                'updatedByAttribute' => false
+            ],
             'saveRelations' => [
                 'class'     => SaveRelationsBehavior::className(),
                 'relations' => ['categories']
+            ],
+            'uploads' => [
+                'class' => UploadImageBehavior::className(),
+                'attribute' => 'image',
+                'placeholder' => '@webroot/images/no-image.png',
+                'path' => '@webroot/upload/images',
+                'url' => '@web/upload/images',
+                'thumbPath' => '@webroot/upload/images/thumb',
+                'thumbUrl' => '@web/upload/images/thumb',
+                'thumbs' => [
+                    'thumb' => ['width' => 400, 'quality' => 90],
+                ],
             ],
         ];
     }
@@ -72,6 +90,7 @@ class Articles extends ActiveRecord
             [['title', 'slug'], 'string', 'max' => 255],
             [['slug'], 'unique'],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['created_by' => 'id']],
+            ['image', 'image', 'extensions' => 'jpg, jpeg, png'],
             ['categories', 'safe']
         ];
     }
@@ -92,6 +111,7 @@ class Articles extends ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'published_at' => Yii::t('app', 'Published At'),
             'status' => Yii::t('app', 'Status'),
+            'image' => Yii::t('app', 'Image'),
             'categories' => Yii::t('app', 'Categories'),
         ];
     }
@@ -113,6 +133,11 @@ class Articles extends ActiveRecord
             ->viaTable(Categories::junctionTableName(), ['article_id' => 'id']);
     }
 
+    public static function getArticleCategories($model)
+    {
+        return ArrayHelper::map($model->categories, 'id', 'title');
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -124,6 +149,11 @@ class Articles extends ActiveRecord
     public static function getCategoriesList()
     {
         return ArrayHelper::map(Categories::find()->all(), 'id', 'title');
+    }
+
+    public static function getUsersList()
+    {
+        return ArrayHelper::map(Users::find()->all(), 'id', 'username');
     }
 
     /**

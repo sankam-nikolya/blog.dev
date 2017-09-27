@@ -11,6 +11,7 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+        '@components' => '@app/components'
     ],
     'language' => 'ru-RU',
     'components' => [
@@ -22,7 +23,7 @@ $config = [
             'class' => (YII_ENV_DEV) ? 'yii\caching\DummyCache' : 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\Users',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [

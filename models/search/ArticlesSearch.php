@@ -6,12 +6,15 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Articles;
+use app\models\Categories;
 
 /**
  * ArticlesSearch represents the model behind the search form of `app\models\Articles`.
  */
 class ArticlesSearch extends Articles
 {
+    public $category;
+
     /**
      * @inheritdoc
      */
@@ -19,7 +22,7 @@ class ArticlesSearch extends Articles
     {
         return [
             [['id', 'created_by', 'status'], 'integer'],
-            [['title', 'created_at', 'updated_at', 'published_at'], 'safe'],
+            [['title', 'created_at', 'updated_at', 'published_at', 'category'], 'safe'],
         ];
     }
 
@@ -41,7 +44,8 @@ class ArticlesSearch extends Articles
      */
     public function search($params)
     {
-        $query = Articles::find();
+        $query = Articles::find()
+            ->joinWith(['categories']);
 
         // add conditions that should always apply here
 
@@ -61,7 +65,7 @@ class ArticlesSearch extends Articles
             $query->andFilterWhere(
                 [
                     'between',
-                    'created_at',
+                    Articles::tableName() . '.[[created_at]]',
                     strtotime($this->created_at),
                     strtotime($this->created_at . ' 23:59:59')
                 ]
@@ -72,7 +76,7 @@ class ArticlesSearch extends Articles
             $query->andFilterWhere(
                 [
                     'between',
-                    'updated_at',
+                    Articles::tableName() . '.[[updated_at]]',
                     strtotime($this->updated_at),
                     strtotime($this->updated_at . ' 23:59:59')
                 ]
@@ -83,7 +87,7 @@ class ArticlesSearch extends Articles
             $query->andFilterWhere(
                 [
                     'between',
-                    'published_at',
+                    Articles::tableName() . '.[[published_at]]',
                     strtotime($this->published_at),
                     strtotime($this->published_at . ' 23:59:59')
                 ]
@@ -97,7 +101,8 @@ class ArticlesSearch extends Articles
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['like', Articles::tableName() . '.[[title]]', $this->title])
+            ->andFilterWhere(['like', Categories::tableName() . '.[[title]]', $this->category]);
 
         return $dataProvider;
     }

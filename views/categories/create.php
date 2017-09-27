@@ -7,6 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Categories */
 
 $this->title = Yii::t('app', 'Create Categories');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Administrative area'), 'url' => ['admin/index']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

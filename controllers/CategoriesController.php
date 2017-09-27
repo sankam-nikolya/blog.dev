@@ -29,6 +29,16 @@ class CategoriesController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+
+        if(Yii::$app->user->isGuest) {
+            return $this->redirect(['site/index']);
+        }
+
+        return parent::beforeAction($action);
+    }
+
     /**
      * Lists all Categories models.
      * @return mixed

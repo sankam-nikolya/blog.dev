@@ -9,6 +9,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\models\Settings;
 
 AppAsset::register($this);
 ?>
@@ -29,7 +30,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => Settings::getKey('app.name', Yii::$app->name),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -44,14 +45,20 @@ AppAsset::register($this);
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
+                [
+                    'label' => Yii::$app->user->identity->username,
+                    'items' => [
+                        ['label' => Yii::t('app', 'Administrative area'), 'url' => ['/admin/index']],
+                        '<li>'
+                        . Html::beginForm(['/site/logout'], 'post')
+                        . Html::submitButton(
+                            'Logout',
+                            ['class' => 'btn btn-link logout']
+                        )
+                        . Html::endForm()
+                        . '</li>'
+                    ]
+                ]                
             )
         ],
     ]);

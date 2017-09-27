@@ -9,6 +9,7 @@ use app\widgets\DatePicker;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Articles');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Administrative area'), 'url' => ['admin/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="articles-index">
@@ -34,6 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         $model->title,
                         ['update', 'id' => $model->id]
                     );
+                }
+            ],
+            [
+                'attribute' => 'category',
+                'label' => Yii::t('app', 'Category'),
+                'value' => function($model) {
+                    $categories = $model->getArticleCategories($model);
+                    return (!empty($categories)) ? implode(', ', $categories) : null;
                 }
             ],
             //'created_by',

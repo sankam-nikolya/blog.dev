@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use vova07\imperavi\Widget;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Categories */
@@ -16,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'description')->widget(Widget::className()) ?>
 
     <?= $form->field($model, 'status')->checkbox() ?>
 

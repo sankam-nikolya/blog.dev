@@ -7,6 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Categories */
 
 $this->title = $model->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Administrative area'), 'url' => ['admin/index']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

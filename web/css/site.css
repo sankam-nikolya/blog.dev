@@ -113,3 +113,13 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.content-image {
+    max-height: 200px;
+    width: auto;
+}
+
+.route-block,
+.url-block {
+    display: none;
+}

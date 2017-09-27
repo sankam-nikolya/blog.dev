@@ -93,4 +93,13 @@ return array (
       '@vova07/imperavi' => $vendorDir . '/vova07/yii2-imperavi-widget/src',
     ),
   ),
+  'yiisoft/yii2-imagine' => 
+  array (
+    'name' => 'yiisoft/yii2-imagine',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@yii/imagine' => $vendorDir . '/yiisoft/yii2-imagine',
+    ),
+  ),
 );

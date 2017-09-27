@@ -29,6 +29,20 @@ use kartik\select2\Select2;
                 'multiple' => true
             ],
         ]) ?>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-lg-6">
+                <?= Html::img($model->getUploadUrl('image'), ['class' => 'img-thumbnail img-responsive content-image']) ?>
+            </div>
+            <div class="col-lg-6">
+                <?= Html::img($model->getThumbUploadUrl('image'), ['class' => 'img-thumbnail img-responsive content-image']) ?>
+            </div>
+        </div>
+    </div>
+
+    <?= $form->field($model, 'image')->fileInput(['accept' => 'image/*']) ?>
+
     <?= $form->field($model, 'intro')->widget(Widget::className()) ?>
 
     <?= $form->field($model, 'description')->widget(Widget::className(), [
@@ -37,11 +51,9 @@ use kartik\select2\Select2;
             ]
         ]) ?>
 
-    <?= $form->field($model, 'created_by')->textInput() ?>
-
     <?= $form->field($model, 'published_at')->widget(DatePicker::className()) ?>
 
-    <?= $form->field($model, 'status')->checkbox() ?>
+    <?= $form->field($model, 'status')->checkbox(); ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

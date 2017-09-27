@@ -7,6 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Articles */
 
 $this->title = $model->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Administrative area'), 'url' => ['admin/index']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Articles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -31,13 +32,29 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             'slug',
-            'intro:ntext',
-            'description:ntext',
-            'created_by',
-            'created_at',
-            'updated_at',
-            'published_at',
-            'status',
+            [
+                'attribute' => 'categories',
+                'value' => function($model) {
+                    return implode(', ', $model->getArticleCategories($model));
+                }
+            ],
+            'intro:html',
+            'description:html',
+            // 'created_by',
+            'created_at:datetime',
+            'updated_at:datetime',
+            'published_at:datetime',
+            [
+                'attribute' => 'status',
+                'value' => function($model) {
+                    $statuses = [
+                        0 => Yii::t('app', 'Not Published'),
+                        1 => Yii::t('app', 'Published')
+                    ];
+
+                    return $statuses[$model->status];
+                }
+            ],
         ],
     ]) ?>
 
